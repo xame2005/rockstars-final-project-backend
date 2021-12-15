@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.db.models.signals import pre_save
+from django.utils.text import slugify
 
 User = get_user_model()
 
@@ -29,14 +31,12 @@ class Address(models.Model):
 
 class Product(models.Model):
     title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True)
+    image = models.ImageField(upload_to='product_images/')
     description = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    active = models.BooleanField(default=True)
-    price = models.FloatField()
-    stock = models.IntegerField()
-    image_url = models.CharField(max_length=2083)
+    active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -46,10 +46,10 @@ class OrderItem(models.Model):
     order = models.ForeignKey(
         'Order', on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1)
+    quantity = models.PositiveIntegerField(default=1)
 
     def __str__(self):
-        return f"{self.quantity} of {self.product.title}"
+        return f"{self.quantity} x {self.product.title}"
 
 
 class Order(models.Model):
@@ -88,3 +88,11 @@ class Payment(models.Model):
     @property
     def reference_number(self):
         return f"PAYMENT-{self.order} - {self.pk}"
+
+
+def pre_save_product_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = slugify(instance.title)
+
+
+pre_save.connect(pre_save_product_receiver, sender=Product)
