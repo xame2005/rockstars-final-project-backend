@@ -35,7 +35,7 @@ class ProductDetailView(generic.FormView):
             product=product, colour=form.cleaned_data['colour'], size=form.cleaned_data['size'])
         if item_filter.exists():
             item = item_filter.first()
-            item.quantity = int(form.cleaned_data['quantity'])
+            item.quantity += int(form.cleaned_data['quantity'])
             item.save()
 
         else:
