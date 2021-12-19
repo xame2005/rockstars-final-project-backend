@@ -76,6 +76,16 @@
                                 </td>
                             </tr>
                             {% endfor %}
+
+                            <tr>
+                                <td><strong class="text-black font-weight-bold">Subtotal</strong></td>
+                                <td>${{ order.get_subtotal }}</td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Order Total</strong></td>
+                                <td><strong class="text-black font-weight-bold">${{ order.get_total }}</strong></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -125,7 +135,7 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <a href="#" class="btn btn-warning btn-lg py-3 btn-block">Proceed to Checkout</a>
+                                    <a href="{% url 'cart:checkout' %}" class="btn btn-warning btn-lg py-3 btn-block">Proceed to Checkout</a>
                                 </div>
                             </div>
                         </div>

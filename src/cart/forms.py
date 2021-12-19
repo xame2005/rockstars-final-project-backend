@@ -11,8 +11,12 @@ class AddToCartForm(forms.ModelForm):
         fields = ['quantity', 'colour', 'size']
 
     def __init__(self, *args, **kwargs):
-        produt_id = kwargs.pop('product_id')
-        product = Product.objects.get(id=produt_id)
+        product_id = kwargs.pop('product_id')
+        product = Product.objects.get(id=product_id)
         super().__init__(*args, **kwargs)
         self.fields['colour'].queryset = product.available_colour.all()
         self.fields['size'].queryset = product.available_size.all()
+
+
+class AddressForm(forms.Form):
+    pass
