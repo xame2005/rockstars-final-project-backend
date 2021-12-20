@@ -124,7 +124,7 @@
                   <a href="{% url 'home' %}">
                     <img
                       class="img-fluid"
-                      src="{% static 'images/logo.png' %}"
+                      src="{% static 'images/logo.jpg' %}"
                       style="max-width: 150px"
                     />
                   </a>
@@ -136,7 +136,7 @@
                   <ul>
                     <li>
                       {% if request.user.is_authenticated %}
-                      <a href="#"
+                      <a href="{% url 'profile' %}"
                         ><span><i class="fas fa-user"></i></span
                       ></a>
                       {% else %}

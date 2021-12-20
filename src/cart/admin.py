@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, OrderItem, Order, ColourVariation, SizeVariation, Address
+from .models import Product, OrderItem, Order, ColourVariation, SizeVariation, Address, Payment
 
 # Register your models here.
 
@@ -15,3 +15,4 @@ admin.site.register(Order)
 admin.site.register(ColourVariation)
 admin.site.register(SizeVariation)
 admin.site.register(Address, AddressAdmin)
+admin.site.register(Payment)

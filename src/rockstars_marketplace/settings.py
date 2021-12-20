@@ -13,10 +13,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'vy)!_s-jk%f_!$0*^k2bkdxe9i083xz*=6kl*j)$7zd$l*neid'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'True'
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -32,9 +32,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'crispy_forms',
     'core',
     'cart',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
 DEFAULT_FROM_EMAIL = 'samuel.gonzalez@enroutesystems.com'
@@ -101,6 +105,22 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+LOGIN_REDIRECT_URL = '/'
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
@@ -127,6 +147,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+PAYPAL_CLIENT_ID = env('PAYPAL_SANDBOX_CLIENT_ID')
+PAYPAL_CLIENT_SECRET = env('PAYPAL_SANDBOX_SECRET_KEY')
+
 if DEBUG is False:
     SESSION_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
@@ -151,3 +174,6 @@ if DEBUG is False:
             'PORT': '3306',
         }
     }
+
+#PAYPAL_CLIENT_ID = env('PAYPAL_LIVE_CLIENT_ID')
+#PAYPAL_CLIENT_SECRET = env('PAYPAL_LIVE_SECRET_KEY')
